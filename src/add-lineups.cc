@@ -831,7 +831,7 @@ int main(int argc, char **args) {
     printf("%-30s %s\n", rost[i][1], rost[i][8]);
   }
 
-  do { fgets(s, 1024, f); } while (!feof(f) && (tk=strstr(s, "</tr>"))==NULL);
+  do { fgets(s, 1024, f); } while (!feof(f) && (strstr(s, "</tr>"))==NULL);
 
   if (strstr(s, "DISPOSIZIONE")!=NULL) {
   row = 10;

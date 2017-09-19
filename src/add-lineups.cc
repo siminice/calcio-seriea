@@ -785,10 +785,13 @@ int main(int argc, char **args) {
   char rost[22][10][64];
   int card[22][2];
   int subx[22][2];
+  int suby[22][2];
+  int numsubs = 0;
   for (int i=0; i<22; i++) {
     for (int j=0; j<10; j++) rost[i][j][0] = 0;
     card[i][0] = card[i][1] = 0;
     subx[i][0] = subx[i][1] = 0;
+    suby[i][0] = suby[i][1] = 0;
   }
   do {
     fgets(s, 1024, f);
@@ -831,10 +834,8 @@ int main(int argc, char **args) {
   do { fgets(s, 1024, f); } while (!feof(f) && (tk=strstr(s, "</tr>"))==NULL);
 
   if (strstr(s, "DISPOSIZIONE")!=NULL) {
-  row = -1;
+  row = 10;
   col = -1;
-  char sub[11][10][64];
-  for (int i=0; i<11; i++) for (int j=0; j<10; j++) strcpy(sub[i][j], "");
   do {
     fgets(s, 1024, f);
     if (strstr(s, "<tr>")!=NULL) {
@@ -851,6 +852,16 @@ int main(int argc, char **args) {
         } while (strstr(s, "</td>")==NULL);
         if (isesp>0) card[row][col/5] = espm;
       }
+      if (col==3 || col==6) {
+        subm = 90; issub = 0;
+        do {
+          fgets(s, 1024, f);
+          if ((sap=strstr(s, "&#39;"))!=NULL) if (sap[-1]>='1' && sap[-1]<='9') subm = ExtractMin(s);
+          if (strstr(s, "image/entrato")!=NULL) issub = 1;
+        } while (strstr(s, "</td>")==NULL);
+        if (issub>0) suby[row][col/5] = subm;
+        if (isesp>0) card[row][col/5] = espm;
+      }
     }
     else if (strstr(s, "</td>")!=NULL) {
       strtok(s, "<");
@@ -860,8 +871,11 @@ int main(int argc, char **args) {
   } while (!feof(f) && (tk=strstr(s, "ALLENATORE"))==NULL);
 
   printf(" > Subs\n");
-  for (int i=0; i<11; i++) {
-    printf("%-30s %s\n", sub[i][1], sub[i][8]);
+  for (int i=11; i<22; i++) {
+    if (rost[i][1][0]!=0 || rost[i][8][0]!=0) {
+      numsubs++;
+      printf("%-30s %s\n", rost[i][1], rost[i][8]);
+    }
   }
   } // subs
 
@@ -918,6 +932,35 @@ int main(int argc, char **args) {
   for (int i=0; i<11; i++) { printf("%3d ", apid[i]); }; printf("\n");
 
   printf("----------------------------------------------\n");
+
+  // -----------------------------------
+
+  if (numsubs > 0) {
+    for (int i=11; i<22; i++) {
+      hpid[i] = FindInCatalog(rost[i][1], id[home]);
+      apid[i] = FindInCatalog(rost[i][8], id[away]);
+      if (suby[i][0]>0) {
+        if (card[i][0]>0) {
+          hmin[i] = card[i][0] - suby[i][0];
+          evp[nev] = hpid[i]; evm[nev] = card[i][0]; evt[nev] = EV_RED; nev++;
+        } else {
+          hmin[i] = 91 - suby[i][0];
+        }
+      }
+      if (suby[i][1]>0) {
+        if (card[i][1]>0) {
+          amin[i] = card[i][1] - suby[i][1];
+          evp[nev] = apid[i]; evm[nev] = card[i][1]; evt[nev] = EV_RED; nev++;
+        } else {
+          amin[i] = 91 - suby[i][1];
+        }
+      }
+    }
+
+    for (int i=11; i<22; i++) { printf("%3d ", hpid[i]); }; printf("\n");
+    for (int i=11; i<22; i++) { printf("%3d ", apid[i]); }; printf("\n");
+    printf("----------------------------------------------\n");
+  }
 
   // -----------------------------------
 

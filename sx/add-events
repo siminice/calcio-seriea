@@ -1,0 +1,5 @@
+#!/bin/bash
+
+Y=1930
+
+addevents /home/radu/rsssf/sat/ita/lineups/db/lineups-${Y}.db /home/radu/rsssf/sat/ita/lineups/db/events-${Y}.db $1

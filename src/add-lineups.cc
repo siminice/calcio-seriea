@@ -804,7 +804,7 @@ int main(int argc, char **args) {
         espm = 90; isesp = 0;
         do {
           fgets(s, 1024, f);
-          if ((sap=strstr(s, "&#39;"))!=NULL) if (sap[-1]>='1' && sap[-1]<='9') espm = ExtractMin(s);
+          if ((sap=strstr(s, "&#39;"))!=NULL) if (sap[-1]>='0' && sap[-1]<='9') espm = ExtractMin(s);
           if (strstr(s, "image/espulsione")!=NULL) isesp = 1;
         } while (strstr(s, "</td>")==NULL);
         if (isesp>0) card[row][col/5] = espm;
@@ -813,7 +813,7 @@ int main(int argc, char **args) {
         subm = 90; issub = 0;
         do {
           fgets(s, 1024, f);
-          if ((sap=strstr(s, "&#39;"))!=NULL) if (sap[-1]>='1' && sap[-1]<='9') subm = ExtractMin(s);
+          if ((sap=strstr(s, "&#39;"))!=NULL) if (sap[-1]>='0' && sap[-1]<='9') subm = ExtractMin(s);
           if (strstr(s, "image/uscito")!=NULL) issub = 1;
         } while (strstr(s, "</td>")==NULL);
         if (issub>0) subx[row][col/5] = subm;
@@ -847,7 +847,7 @@ int main(int argc, char **args) {
         espm = 90; isesp = 0;
         do {
           fgets(s, 1024, f);
-          if ((sap=strstr(s, "&#39;"))!=NULL) if (sap[-1]>='1' && sap[-1]<='9') espm = ExtractMin(s);
+          if ((sap=strstr(s, "&#39;"))!=NULL) if (sap[-1]>='0' && sap[-1]<='9') espm = ExtractMin(s);
           if (strstr(s, "image/espulsione")!=NULL) isesp = 1;
         } while (strstr(s, "</td>")==NULL);
         if (isesp>0) card[row][col/5] = espm;
@@ -856,7 +856,7 @@ int main(int argc, char **args) {
         subm = 90; issub = 0;
         do {
           fgets(s, 1024, f);
-          if ((sap=strstr(s, "&#39;"))!=NULL) if (sap[-1]>='1' && sap[-1]<='9') subm = ExtractMin(s);
+          if ((sap=strstr(s, "&#39;"))!=NULL) if (sap[-1]>='0' && sap[-1]<='9') subm = ExtractMin(s);
           if (strstr(s, "image/entrato")!=NULL) issub = 1;
         } while (strstr(s, "</td>")==NULL);
         if (issub>0) suby[row][col/5] = subm;

@@ -833,7 +833,7 @@ int main(int argc, char **args) {
 
   do { fgets(s, 1024, f); } while (!feof(f) && (strstr(s, "</tr>"))==NULL);
 
-  if (strstr(s, "DISPOSIZIONE")!=NULL) {
+  if (strstr(tk, "DISPOSIZIONE")!=NULL) {
   row = 10;
   col = -1;
   do {
